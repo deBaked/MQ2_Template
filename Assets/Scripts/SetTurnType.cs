@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,17 +9,29 @@ public class SetTurnType : MonoBehaviour
     [SerializeField] ActionBasedSnapTurnProvider snapTurn;
     [SerializeField] ActionBasedContinuousTurnProvider continuousTurn;
 
+    private int lastIndex;
+
     public void SetTypeFromIndex(int index)
     {
-        if (index == 0)
+        try
         {
-            snapTurn.enabled = false;
-            continuousTurn.enabled = true;
+            lastIndex = index;
+
+            if (index == 0)
+            {
+                snapTurn.enabled = false;
+                continuousTurn.enabled = true;
+            }
+            else if (index == 1)
+            {
+                snapTurn.enabled = true;
+                continuousTurn.enabled = false;
+            }
         }
-        else if (index == 1)
+        catch (NullReferenceException)
         {
-            snapTurn.enabled = true;
-            continuousTurn.enabled = false;
+            index = lastIndex;
         }
+        
     }
 }
